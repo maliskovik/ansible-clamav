@@ -1,0 +1,53 @@
+---
+
+- name: Install clamav
+  apt:
+    name: '{{ clamav_required_packages }}'
+    state: present
+
+- name: Configure clamav
+  template:
+    src: clamav.conf
+    dest: /etc/clamav/clamd.conf
+    mode: 0700
+    owner: root
+    group: root
+  notify: Restart clamav
+
+- name: Create scripts directory
+  file:
+    state: directory
+    dest: "{{ clamav_script_directory }}"
+    mode: 755
+    owner: root
+    group: root
+
+- name: Set system scan script
+  copy:
+    src: system-scan.sh
+    dest: "{{ cron_system_scan_script_path }}"
+    mode: 0700
+    owner: root
+    group: root
+
+- name: Set custom scan script
+  template:
+    src: custom-scan.sh
+    dest: "{{ cron_custom_scan_script_path }}"
+    mode: 0700
+    owner: root
+    group: root
+
+- name: Set Cronjob
+  template:
+    src: clamav.cronjob
+    dest: /etc/cron.d/clamav
+    mode: 0700
+    owner: root
+    group: root
+
+- name: Start clamav
+  service:
+    name: clamav-daemon
+    state: started
+    enabled: yes

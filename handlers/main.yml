@@ -1,0 +1,6 @@
+---
+- name: Restart clamav
+  service:
+    name: clamav-daemon
+    state: restarted
+    enabled: yes

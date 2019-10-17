@@ -1,0 +1,5 @@
+---
+clamav_mailto: admin@example.com
+clamav_script_directory: "/opt/scripts"
+cron_system_scan_script_path: "{{ clamav_script_directory }}/system-scan.sh"
+cron_custom_scan_script_path: "{{ clamav_script_directory }}/custom-scan.sh"

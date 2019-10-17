@@ -1,0 +1,4 @@
+---
+clamav_required_packages:
+  - clamav
+  - clamav-daemon
